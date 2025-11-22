@@ -484,28 +484,31 @@ video.rear-view {
 .action-btns {
   margin-top: 40px;
   display: flex;
-  gap: 30px;
+  justify-content: center;
 }
 .btn {
   background: none;
   border: 1px solid #555;
   color: #aaa;
-  padding: 10px 20px;
-  border-radius: 20px;
+  padding: 12px 30px;
+  border-radius: 25px;
   cursor: pointer;
-  font-size: 14px;
-  transition: 0.2s;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  font-weight: 500;
 }
 .btn:hover {
   border-color: #fff;
   color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
 }
-.btn-save {
-  border-color: #e74c3c;
-  color: #e74c3c;
-  font-weight: bold;
+.btn-retake {
+  border-color: #74b9ff;
+  color: #74b9ff;
 }
-.btn-save:hover {
-  background: #e74c3c;
+.btn-retake:hover {
+  background: #74b9ff;
   color: #fff;
+  border-color: #74b9ff;
 }
