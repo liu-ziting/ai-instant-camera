@@ -33,6 +33,7 @@ body {
   font-family: sans-serif;
   overflow: hidden;
   transition: background-image 0.5s ease;
+  padding-bottom: 50px; /* 为底部开源信息留出空间 */
 }
 
 #app {
@@ -677,4 +678,73 @@ video.rear-view {
   background: #74b9ff;
   color: #fff;
   border-color: #74b9ff;
+}
+
+/* 开源项目说明 */
+.open-source-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  padding: 12px 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.powered-by {
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.separator {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.github-link {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  padding: 4px 8px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.github-link:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+.github-icon {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+}
+
+/* 响应式调整 */
+@media (max-width: 480px) {
+  .footer-content {
+    font-size: 11px;
+    gap: 6px;
+  }
+  
+  .github-icon {
+    width: 12px;
+    height: 12px;
+  }
 }
