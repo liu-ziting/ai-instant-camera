@@ -85,6 +85,13 @@
     </div>
     <div class="action-btns">
       <button class="btn btn-retake" @click="closeModal">再拍一张</button>
+      <button class="btn btn-download" @click="downloadPolaroidImage" :disabled="isDownloading">
+        <svg v-if="!isDownloading" class="download-icon" viewBox="0 0 24 24">
+          <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+        </svg>
+        <div v-else class="loading-spinner"></div>
+        {{ isDownloading ? '生成中...' : '保存照片' }}
+      </button>
     </div>
   </div>
 
@@ -111,6 +118,7 @@ import { useCamera } from './composables/useCamera'
 import { useAI } from './composables/useAI'
 import { useResize } from './composables/useResize'
 import { useTheme } from './composables/useTheme'
+import { usePolaroid } from './composables/usePolaroid'
 
 const scalableWrapper = ref<HTMLElement>()
 const videoRef = ref<HTMLVideoElement>()
@@ -125,12 +133,17 @@ const showModal = ref(false)
 const showAiText = ref(false)
 const capturedImage = ref('')
 const aiText = ref('')
+const isDownloading = ref(false)
+
+// 检测移动设备
+const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
 
 // 使用组合式函数
 const { currentFacingMode, startCamera, toggleCamera } = useCamera(videoRef)
 const { getAIText, isLoading } = useAI()
 const { resizeCamera } = useResize(scalableWrapper)
 const { theme, nextTheme, initTheme } = useTheme()
+const { savePolaroid } = usePolaroid()
 
 // 拍照功能
 const takePhoto = async () => {
@@ -196,6 +209,34 @@ const takePhoto = async () => {
 const closeModal = () => {
   showModal.value = false
   isShooting.value = false
+}
+
+// 保存拍立得图片
+const downloadPolaroidImage = async () => {
+  if (!capturedImage.value) {
+    alert('没有照片可保存')
+    return
+  }
+  
+  if (!aiText.value) {
+    alert('AI文案还未生成完成，请稍等')
+    return
+  }
+  
+  if (isDownloading.value) {
+    return
+  }
+  
+  isDownloading.value = true
+  
+  try {
+    await savePolaroid(capturedImage.value, aiText.value)
+  } catch (error) {
+    console.error('保存图片失败:', error)
+    alert('保存失败，请重试')
+  } finally {
+    isDownloading.value = false
+  }
 }
 
 

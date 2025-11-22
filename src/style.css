@@ -652,6 +652,7 @@ video.rear-view {
   margin-top: 40px;
   display: flex;
   justify-content: center;
+  gap: 15px;
 }
 .btn {
   background: none;
@@ -678,6 +679,48 @@ video.rear-view {
   background: #74b9ff;
   color: #fff;
   border-color: #74b9ff;
+}
+
+.btn-download {
+  border-color: #e17055;
+  color: #e17055;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 140px;
+  justify-content: center;
+}
+
+.btn-download:hover:not(:disabled) {
+  background: #e17055;
+  color: #fff;
+  border-color: #e17055;
+}
+
+.btn-download:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.download-icon {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+
+.loading-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 /* 开源项目说明 */
@@ -746,5 +789,15 @@ video.rear-view {
   .github-icon {
     width: 12px;
     height: 12px;
+  }
+  
+  .action-btns {
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+  
+  .btn {
+    min-width: 200px;
   }
 }
