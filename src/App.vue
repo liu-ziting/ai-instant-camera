@@ -60,9 +60,6 @@
         </svg>
       </div>
       
-      <!-- 主题名称指示器 -->
-      <div class="theme-indicator">{{ theme.name }}</div>
-
       <div class="brand-label">
         PRO-CAM <span class="ai-label">AI</span>
       </div>
