@@ -1,5 +1,43 @@
 export function usePolaroid() {
-  // 创建拍立得样式的图片
+  // 生成颗粒感噪点
+  const addGrainEffect = (ctx: CanvasRenderingContext2D, width: number, height: number, intensity: number = 0.15) => {
+    const imageData = ctx.getImageData(0, 0, width, height)
+    const data = imageData.data
+
+    for (let i = 0; i < data.length; i += 4) {
+      // 生成随机噪点
+      const noise = (Math.random() - 0.5) * intensity * 255
+
+      // 应用噪点到RGB通道
+      data[i] = Math.max(0, Math.min(255, data[i] + noise))     // R
+      data[i + 1] = Math.max(0, Math.min(255, data[i + 1] + noise)) // G
+      data[i + 2] = Math.max(0, Math.min(255, data[i + 2] + noise)) // B
+      // Alpha通道保持不变
+    }
+
+    ctx.putImageData(imageData, 0, 0)
+  }
+
+  // 添加胶片色调效果
+  const addFilmTone = (ctx: CanvasRenderingContext2D, width: number, height: number) => {
+    const imageData = ctx.getImageData(0, 0, width, height)
+    const data = imageData.data
+
+    for (let i = 0; i < data.length; i += 4) {
+      const r = data[i]
+      const g = data[i + 1]
+      const b = data[i + 2]
+
+      // 胶片色调调整 - 增加暖色调，降低对比度
+      data[i] = Math.min(255, r * 1.1 + 10)     // 增强红色
+      data[i + 1] = Math.min(255, g * 1.05 + 5) // 轻微增强绿色
+      data[i + 2] = Math.min(255, b * 0.95)     // 轻微降低蓝色
+    }
+
+    ctx.putImageData(imageData, 0, 0)
+  }
+
+  // 生成带颗粒感的拍立得图片
   const generatePolaroidImage = async (
     imageDataUrl: string,
     text: string
@@ -11,164 +49,127 @@ export function usePolaroid() {
       const ctx = canvas.getContext('2d')!
       console.log('Canvas 创建成功')
 
-      // 拍立得尺寸 (3:4比例，底部留白区域)
-      const polaroidWidth = 600
-      const polaroidHeight = 750
-      const photoWidth = 540
-      const photoHeight = 540
-      const textAreaHeight = 150
-      const padding = 30
-
-      canvas.width = polaroidWidth
-      canvas.height = polaroidHeight
-
-      // 绘制拍立得背景 (白色)
-      ctx.fillStyle = '#fdfdfd'
-      ctx.fillRect(0, 0, polaroidWidth, polaroidHeight)
-
-      // 添加纸张纹理
-      ctx.fillStyle = '#f8f8f8'
-      for (let i = 0; i < 100; i++) {
-        const x = Math.random() * polaroidWidth
-        const y = Math.random() * polaroidHeight
-        const size = Math.random() * 2
-        ctx.fillRect(x, y, size, size)
-      }
-
-      // 绘制阴影效果
-      ctx.shadowColor = 'rgba(0, 0, 0, 0.1)'
-      ctx.shadowBlur = 20
-      ctx.shadowOffsetX = 0
-      ctx.shadowOffsetY = 10
-
-      // 加载并绘制照片
+      // 加载原始图片
       const img = new Image()
       img.onload = () => {
         console.log('图片加载成功')
-        // 重置阴影
-        ctx.shadowColor = 'transparent'
-        ctx.shadowBlur = 0
-        ctx.shadowOffsetX = 0
-        ctx.shadowOffsetY = 0
 
-        // 绘制照片区域
-        const photoX = (polaroidWidth - photoWidth) / 2
-        const photoY = padding
+        // 拍立得标准尺寸：竖向长方形，照片区域为正方形，下方大片留白
+        const polaroidWidth = 600
+        const polaroidHeight = 750  // 约 4:5 比例
+        const photoSize = 480       // 正方形照片
+        const topMargin = 40
+        const sideMargin = (polaroidWidth - photoSize) / 2
+        const bottomWhiteSpace = polaroidHeight - photoSize - topMargin - 40
 
-        // 绘制照片背景
-        ctx.fillStyle = '#000'
-        ctx.fillRect(photoX, photoY, photoWidth, photoHeight)
+        // 设置canvas尺寸
+        canvas.width = polaroidWidth
+        canvas.height = polaroidHeight
 
-        // 计算图片缩放比例，保持宽高比
-        const imgAspect = img.width / img.height
-        const photoAspect = photoWidth / photoHeight
+        // 绘制拍立得白色背景
+        ctx.fillStyle = '#fdfdfd'
+        ctx.fillRect(0, 0, polaroidWidth, polaroidHeight)
 
-        let drawWidth, drawHeight, drawX, drawY
-
-        if (imgAspect > photoAspect) {
-          // 图片更宽，以高度为准
-          drawHeight = photoHeight
-          drawWidth = drawHeight * imgAspect
-          drawX = photoX - (drawWidth - photoWidth) / 2
-          drawY = photoY
-        } else {
-          // 图片更高，以宽度为准
-          drawWidth = photoWidth
-          drawHeight = drawWidth / imgAspect
-          drawX = photoX
-          drawY = photoY - (drawHeight - photoHeight) / 2
+        // 添加纸张纹理
+        ctx.fillStyle = '#f8f8f8'
+        for (let i = 0; i < 50; i++) {
+          const x = Math.random() * polaroidWidth
+          const y = Math.random() * polaroidHeight
+          const size = Math.random() * 1.5
+          ctx.fillRect(x, y, size, size)
         }
 
-        // 裁剪区域
+        // 绘制照片区域（正方形）
+        const photoX = sideMargin
+        const photoY = topMargin
+
+        // 绘制照片背景（黑色边框效果）
+        ctx.fillStyle = '#000'
+        ctx.fillRect(photoX - 2, photoY - 2, photoSize + 4, photoSize + 4)
+
+        // 裁剪并绘制图片（正方形）
         ctx.save()
-        ctx.beginPath()
-        ctx.rect(photoX, photoY, photoWidth, photoHeight)
+        ctx.rect(photoX, photoY, photoSize, photoSize)
         ctx.clip()
 
-        // 绘制图片
-        ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight)
+        // 计算图片缩放和居中（保持宽高比，填满正方形）
+        const scale = Math.max(photoSize / img.width, photoSize / img.height)
+        const scaledWidth = img.width * scale
+        const scaledHeight = img.height * scale
+        const offsetX = photoX + (photoSize - scaledWidth) / 2
+        const offsetY = photoY + (photoSize - scaledHeight) / 2
 
-        // 添加复古滤镜效果
-        ctx.globalCompositeOperation = 'multiply'
-        ctx.fillStyle = 'rgba(255, 230, 200, 0.1)'
-        ctx.fillRect(photoX, photoY, photoWidth, photoHeight)
-
-        ctx.globalCompositeOperation = 'source-over'
+        ctx.drawImage(img, offsetX, offsetY, scaledWidth, scaledHeight)
         ctx.restore()
 
-        // 绘制照片边框
-        ctx.strokeStyle = 'rgba(0, 0, 0, 0.1)'
-        ctx.lineWidth = 1
-        ctx.strokeRect(photoX, photoY, photoWidth, photoHeight)
+        // 添加胶片色调效果
+        addFilmTone(ctx, polaroidWidth, polaroidHeight)
 
-        // 绘制文字区域
-        const textY = photoY + photoHeight + 20
-        const textAreaWidth = photoWidth
-        const textX = photoX
+        // 添加颗粒感效果
+        addGrainEffect(ctx, polaroidWidth, polaroidHeight, 0.12)
 
-        // 设置文字样式 (打印机风格)
+        // 绘制文字区域（在底部留白区域）
+        const textStartY = photoY + photoSize + 30
+        const textAreaHeight = bottomWhiteSpace - 60
+
+        // 设置文字样式
         ctx.fillStyle = '#2c2c2c'
-        ctx.font = 'bold 24px "Courier New", monospace'
+        ctx.font = 'bold 18px "Comic Sans MS", cursive, sans-serif'
         ctx.textAlign = 'center'
-        ctx.textBaseline = 'middle'
 
         // 文字换行处理
-        const maxWidth = textAreaWidth - 40
-        const lineHeight = 32
+        const maxWidth = photoSize - 40
         const words = text.split('')
         let line = ''
-        let lines: string[] = []
+        let y = textStartY
+        const lineHeight = 26
 
         for (let i = 0; i < words.length; i++) {
           const testLine = line + words[i]
           const metrics = ctx.measureText(testLine)
 
           if (metrics.width > maxWidth && line !== '') {
-            lines.push(line)
+            ctx.fillText(line, polaroidWidth / 2, y)
             line = words[i]
+            y += lineHeight
+
+            // 防止文字超出底部
+            if (y > textStartY + textAreaHeight - 40) break
           } else {
             line = testLine
           }
         }
-        lines.push(line)
 
-        // 绘制文字
-        const totalTextHeight = lines.length * lineHeight
-        const startY = textY + (textAreaHeight - totalTextHeight) / 2
+        // 绘制最后一行
+        if (line && y <= textStartY + textAreaHeight - 40) {
+          ctx.fillText(line, polaroidWidth / 2, y)
+        }
 
-        lines.forEach((line, index) => {
-          const y = startY + index * lineHeight
+        // 重置阴影效果
+        ctx.shadowColor = 'transparent'
+        ctx.shadowBlur = 0
+        ctx.shadowOffsetX = 0
+        ctx.shadowOffsetY = 0
 
-          // 添加打印机颗粒感效果
-          ctx.save()
+        // 添加时间戳和品牌标识（在底部）
+        const bottomY = polaroidHeight - 20
 
-          // 主文字
-          ctx.fillStyle = '#2c2c2c'
-          ctx.fillText(line, textX + textAreaWidth / 2, y)
+        // 设置小字体样式
+        ctx.font = 'bold 11px "Courier New", monospace'
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.5)'
 
-          // 添加轻微的阴影效果模拟打印机墨点
-          ctx.fillStyle = 'rgba(0, 0, 0, 0.1)'
-          ctx.fillText(line, textX + textAreaWidth / 2 + 1, y + 1)
-
-          ctx.restore()
-        })
-
-        // 添加拍立得品牌标识 (可选)
-        ctx.font = 'bold 12px "Courier New", monospace'
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.3)'
-        ctx.textAlign = 'right'
-        ctx.fillText('RETRO CAM AI', polaroidWidth - 20, polaroidHeight - 15)
-
-        // 添加时间戳
+        // 左侧：时间戳
+        ctx.textAlign = 'left'
         const now = new Date()
         const timestamp = now.toLocaleDateString('zh-CN') + ' ' + now.toLocaleTimeString('zh-CN', { hour12: false })
-        ctx.font = '10px "Courier New", monospace'
-        ctx.textAlign = 'left'
-        ctx.fillText(timestamp, 20, polaroidHeight - 15)
+        ctx.fillText(timestamp, 30, bottomY)
 
-        // 返回生成的图片
-        console.log('拍立得图片绘制完成，准备返回')
-        resolve(canvas.toDataURL('image/jpeg', 0.9))
+        // 右侧：品牌标识
+        ctx.textAlign = 'right'
+        ctx.fillText('RETRO CAM AI', polaroidWidth - 30, bottomY)
+
+        console.log('拍立得图片处理完成，准备返回')
+        resolve(canvas.toDataURL('image/jpeg', 0.92))
       }
 
       img.onerror = (error) => {
