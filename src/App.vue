@@ -52,8 +52,19 @@
         <button class="shutter-btn" @click="takePhoto" :disabled="isShooting"></button>
       </div>
 
-      <div style="position: absolute; bottom: 15px; left: 25px; font-weight: bold; color: #777; font-size: 10px; letter-spacing: 1px; z-index: 15">
-        PRO-CAM <span style="color: #e74c3c">AI</span>
+      <!-- 主题切换按钮 -->
+      <div class="theme-btn" @click="nextTheme" :title="`当前主题: ${theme.name}`">
+        <svg class="theme-icon" viewBox="0 0 24 24">
+          <path d="M12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6zm0-10c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4z"/>
+          <circle cx="12" cy="12" r="2"/>
+        </svg>
+      </div>
+      
+      <!-- 主题名称指示器 -->
+      <div class="theme-indicator">{{ theme.name }}</div>
+
+      <div class="brand-label">
+        PRO-CAM <span class="ai-label">AI</span>
       </div>
     </div>
   </div>
@@ -88,6 +99,7 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import { useCamera } from './composables/useCamera'
 import { useAI } from './composables/useAI'
 import { useResize } from './composables/useResize'
+import { useTheme } from './composables/useTheme'
 
 const scalableWrapper = ref<HTMLElement>()
 const videoRef = ref<HTMLVideoElement>()
@@ -107,6 +119,7 @@ const aiText = ref('')
 const { currentFacingMode, startCamera, toggleCamera } = useCamera(videoRef)
 const { getAIText, isLoading } = useAI()
 const { resizeCamera } = useResize(scalableWrapper)
+const { currentTheme, theme, nextTheme } = useTheme()
 
 // 拍照功能
 const takePhoto = async () => {
@@ -180,6 +193,8 @@ onMounted(() => {
   startCamera()
   resizeCamera()
   window.addEventListener('resize', resizeCamera)
+  // 初始化默认主题
+  nextTheme()
 })
 
 onUnmounted(() => {

@@ -1,7 +1,13 @@
 :root {
-  --bg-color: #222;
+  /* 默认主题变量 */
+  --bg-gradient: radial-gradient(circle at center, #2c3e50 0%, #000 100%);
   --cam-body: #1a1a1a;
+  --top-housing: linear-gradient(to bottom, #333, #222);
   --rainbow: linear-gradient(to bottom, #5ac8fa 16.6%, #4cd964 16.6% 33.2%, #ffcc00 33.2% 49.8%, #ff9500 49.8% 66.4%, #ff3b30 66.4%);
+  --lens-gradient: radial-gradient(circle at 30% 30%, #333, #000);
+  --flash-color: #444;
+  --screw-gradient: linear-gradient(45deg, #555, #222);
+  --brand-color: #e74c3c;
   --noise-tex: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
 }
 
@@ -13,14 +19,14 @@
 body {
   margin: 0;
   height: 100vh;
-  background-color: #111;
-  background-image: radial-gradient(circle at center, #2c3e50 0%, #000 100%);
+  background-image: var(--bg-gradient);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-family: sans-serif;
   overflow: hidden;
+  transition: background-image 0.5s ease;
 }
 
 #app {
@@ -49,23 +55,25 @@ body {
   height: 320px;
   background-color: var(--cam-body);
   border-radius: 40px;
-  box-shadow: inset 2px 2px 5px rgba(255, 255, 255, 0.1), inset -5px -5px 15px rgba(0, 0, 0, 0.8), 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 0 2px #000;
+  box-shadow: inset 2px 2px 5px rgba(255, 255, 255, 0.1), inset -5px -5px 15px rgba(0, 0, 0, 0.3), 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 0 2px rgba(0, 0, 0, 0.2);
   z-index: 10;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-image: var(--noise-tex), linear-gradient(135deg, #2b2b2b 0%, #1a1a1a 100%);
+  background-image: var(--noise-tex);
+  transition: all 0.5s ease;
 }
 
 .top-housing {
   width: 100%;
   height: 110px;
-  background: linear-gradient(to bottom, #333, #222);
+  background: var(--top-housing);
   border-radius: 38px 38px 4px 4px;
-  border-bottom: 2px solid #000;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.3);
   position: relative;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   z-index: 12;
+  transition: all 0.5s ease;
 }
 
 .flash-module {
@@ -74,12 +82,12 @@ body {
   right: 30px;
   width: 70px;
   height: 45px;
-  background: #444;
-  border: 2px solid #111;
+  background: var(--flash-color);
+  border: 2px solid rgba(0, 0, 0, 0.2);
   border-radius: 6px;
-  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.8);
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
   background-image: repeating-linear-gradient(90deg, transparent, transparent 4px, rgba(255, 255, 255, 0.1) 4px, rgba(255, 255, 255, 0.1) 5px);
-  transition: background 0.1s;
+  transition: all 0.3s ease;
 }
 
 .flash-bulb {
@@ -141,6 +149,7 @@ body {
   opacity: 0.9;
   z-index: 1;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  transition: all 0.5s ease;
 }
 
 /* 镜头 */
@@ -156,8 +165,9 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: radial-gradient(circle at 30% 30%, #333, #000);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), inset 0 2px 5px rgba(255, 255, 255, 0.2);
+  background: var(--lens-gradient);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), inset 0 2px 5px rgba(255, 255, 255, 0.2);
+  transition: all 0.5s ease;
 }
 .lens-ring-grip {
   width: 190px;
@@ -274,15 +284,90 @@ video.rear-view {
   fill: #aaa;
 }
 
+/* 主题切换按钮 */
+.theme-btn {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 35px;
+  height: 35px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.1);
+  z-index: 30;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+.theme-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateX(-50%) scale(1.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+.theme-btn:active {
+  transform: translateX(-50%) scale(0.95);
+}
+.theme-icon {
+  width: 18px;
+  height: 18px;
+  fill: rgba(255, 255, 255, 0.8);
+  transition: fill 0.3s ease;
+}
+.theme-btn:hover .theme-icon {
+  fill: rgba(255, 255, 255, 1);
+}
+
+/* 品牌标签 */
+.brand-label {
+  position: absolute;
+  bottom: 15px;
+  left: 25px;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 10px;
+  letter-spacing: 1px;
+  z-index: 15;
+  transition: color 0.5s ease;
+}
+.ai-label {
+  color: var(--brand-color);
+  transition: color 0.5s ease;
+}
+
+/* 主题指示器 */
+.theme-indicator {
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(0, 0, 0, 0.2);
+  padding: 4px 8px;
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 25;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
 /* 装饰螺丝 */
 .screw {
   position: absolute;
   width: 10px;
   height: 10px;
-  background: linear-gradient(45deg, #555, #222);
+  background: var(--screw-gradient);
   border-radius: 50%;
-  box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.8);
+  box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.5);
   z-index: 15;
+  transition: all 0.5s ease;
 }
 .screw::after {
   content: '';
