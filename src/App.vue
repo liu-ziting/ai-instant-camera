@@ -64,7 +64,15 @@
         <img :src="capturedImage" alt="captured photo" />
       </div>
       <div class="text-area">
-        <div class="ai-text" :class="{ show: showAiText }">{{ aiText }}</div>
+        <div v-if="isLoading" class="ai-text loading">
+          <div class="loading-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          AI正在解读中...
+        </div>
+        <div v-else class="ai-text" :class="{ show: showAiText }">{{ aiText }}</div>
       </div>
     </div>
     <div class="action-btns">
@@ -98,7 +106,7 @@ const aiText = ref('')
 
 // 使用组合式函数
 const { currentFacingMode, startCamera, toggleCamera } = useCamera(videoRef)
-const { getAIText } = useAI()
+const { getAIText, isLoading } = useAI()
 const { resizeCamera } = useResize(scalableWrapper)
 
 // 拍照功能
@@ -150,11 +158,14 @@ const takePhoto = async () => {
   aiText.value = ''
   showAiText.value = false
   try {
-    const text = await getAIText()
+    const text = await getAIText(capturedImage.value)
     aiText.value = text
     showAiText.value = true
   } catch (e) {
     console.error('AI文案生成失败:', e)
+    // 如果AI调用失败，显示默认文案
+    aiText.value = '😺 "这一刻的美好，值得被记录。"'
+    showAiText.value = true
   }
 }
 
