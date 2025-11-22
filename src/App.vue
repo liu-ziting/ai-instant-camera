@@ -116,7 +116,7 @@ const aiText = ref('')
 const { currentFacingMode, startCamera, toggleCamera } = useCamera(videoRef)
 const { getAIText, isLoading } = useAI()
 const { resizeCamera } = useResize(scalableWrapper)
-const { currentTheme, theme, nextTheme } = useTheme()
+const { theme, nextTheme } = useTheme()
 
 // 拍照功能
 const takePhoto = async () => {
