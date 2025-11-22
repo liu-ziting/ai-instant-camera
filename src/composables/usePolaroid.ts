@@ -1,25 +1,28 @@
 export function usePolaroid() {
-  // 生成颗粒感噪点
-  const addGrainEffect = (ctx: CanvasRenderingContext2D, width: number, height: number, intensity: number = 0.15) => {
+  // GR风格细腻颗粒感（更真实，不那么明显）
+  const addGRGrain = (ctx: CanvasRenderingContext2D, width: number, height: number, intensity: number = 0.06) => {
     const imageData = ctx.getImageData(0, 0, width, height)
     const data = imageData.data
 
     for (let i = 0; i < data.length; i += 4) {
-      // 生成随机噪点
-      const noise = (Math.random() - 0.5) * intensity * 255
+      // 生成更细腻的噪点，模拟数字传感器的真实噪点
+      const luminance = (data[i] * 0.299 + data[i + 1] * 0.587 + data[i + 2] * 0.114) / 255
 
-      // 应用噪点到RGB通道
-      data[i] = Math.max(0, Math.min(255, data[i] + noise))     // R
-      data[i + 1] = Math.max(0, Math.min(255, data[i + 1] + noise)) // G
-      data[i + 2] = Math.max(0, Math.min(255, data[i + 2] + noise)) // B
-      // Alpha通道保持不变
+      // 根据亮度调整噪点强度（暗部噪点更明显，亮部更干净）
+      const adaptiveIntensity = intensity * (1 - luminance * 0.7)
+      const noise = (Math.random() - 0.5) * adaptiveIntensity * 255
+
+      // 应用噪点，保持自然感
+      data[i] = Math.max(0, Math.min(255, data[i] + noise * 0.8))     // R
+      data[i + 1] = Math.max(0, Math.min(255, data[i + 1] + noise))   // G (绿色通道噪点稍强)
+      data[i + 2] = Math.max(0, Math.min(255, data[i + 2] + noise * 0.9)) // B
     }
 
     ctx.putImageData(imageData, 0, 0)
   }
 
-  // 添加胶片色调效果
-  const addFilmTone = (ctx: CanvasRenderingContext2D, width: number, height: number) => {
+  // GR风格色彩调整（自然、真实的色彩还原）
+  const addGRTone = (ctx: CanvasRenderingContext2D, width: number, height: number) => {
     const imageData = ctx.getImageData(0, 0, width, height)
     const data = imageData.data
 
@@ -28,13 +31,32 @@ export function usePolaroid() {
       const g = data[i + 1]
       const b = data[i + 2]
 
-      // 胶片色调调整 - 增加暖色调，降低对比度
-      data[i] = Math.min(255, r * 1.1 + 10)     // 增强红色
-      data[i + 1] = Math.min(255, g * 1.05 + 5) // 轻微增强绿色
-      data[i + 2] = Math.min(255, b * 0.95)     // 轻微降低蓝色
+      // GR风格调色：
+      // 1. 轻微提升对比度
+      // 2. 保持自然的色彩平衡
+      // 3. 轻微增强中间调
+      // 4. 保持肤色自然
+
+      // 计算亮度
+      const luminance = r * 0.299 + g * 0.587 + b * 0.114
+      const contrast = 1.08 // 轻微提升对比度
+      const midtoneBoost = luminance > 60 && luminance < 180 ? 1.02 : 1.0
+
+      // 应用GR风格调色
+      data[i] = Math.min(255, Math.max(0, (r - 128) * contrast + 128) * midtoneBoost)         // R: 保持自然
+      data[i + 1] = Math.min(255, Math.max(0, (g - 128) * contrast + 128) * midtoneBoost * 1.01) // G: 轻微增强
+      data[i + 2] = Math.min(255, Math.max(0, (b - 128) * contrast + 128) * midtoneBoost * 0.98) // B: 轻微减少，增加温暖感
     }
 
     ctx.putImageData(imageData, 0, 0)
+  }
+
+  // 应用GR风格滤镜效果
+  const applyFilters = (ctx: CanvasRenderingContext2D, width: number, height: number) => {
+    // 应用GR风格色彩调整
+    addGRTone(ctx, width, height)
+    // 添加细腻的颗粒感
+    addGRGrain(ctx, width, height, 0.05)
   }
 
   // 生成带颗粒感的拍立得图片
@@ -102,11 +124,7 @@ export function usePolaroid() {
         ctx.drawImage(img, offsetX, offsetY, scaledWidth, scaledHeight)
         ctx.restore()
 
-        // 添加胶片色调效果
-        addFilmTone(ctx, polaroidWidth, polaroidHeight)
-
-        // 添加颗粒感效果
-        addGrainEffect(ctx, polaroidWidth, polaroidHeight, 0.12)
+        // 注意：滤镜效果已在拍照时应用，这里不再重复应用
 
         // 绘制文字区域（在底部留白区域）
         const textStartY = photoY + photoSize + 30
@@ -313,6 +331,7 @@ export function usePolaroid() {
 
   return {
     generatePolaroidImage,
-    savePolaroid
+    savePolaroid,
+    applyFilters
   }
 }
