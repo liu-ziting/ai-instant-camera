@@ -164,7 +164,7 @@ const takePhoto = async () => {
   } catch (e) {
     console.error('AI文案生成失败:', e)
     // 如果AI调用失败，显示默认文案
-    aiText.value = '😺 "这一刻的美好，值得被记录。"'
+    aiText.value = '📸 "这一刻的美好，值得被记录~"'
     showAiText.value = true
   }
 }
@@ -177,10 +177,72 @@ const closeModal = () => {
 
 // 保存照片
 const savePhoto = () => {
-  const link = document.createElement('a')
-  link.download = `retro-${Date.now()}.jpg`
-  link.href = capturedImage.value
-  link.click()
+  if (!capturedImage.value) {
+    alert('没有可保存的照片')
+    return
+  }
+  
+  try {
+    // 创建下载链接
+    const link = document.createElement('a')
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-')
+    link.download = `retro-camera-${timestamp}.jpg`
+    link.href = capturedImage.value
+    link.style.display = 'none'
+    
+    // 添加到DOM并触发下载
+    document.body.appendChild(link)
+    link.click()
+    
+    // 清理DOM
+    setTimeout(() => {
+      if (document.body.contains(link)) {
+        document.body.removeChild(link)
+      }
+    }, 100)
+    
+    console.log('照片下载已开始')
+    
+    // 给用户一个视觉反馈
+    const saveBtn = document.querySelector('.btn-save') as HTMLElement
+    if (saveBtn) {
+      const originalText = saveBtn.textContent
+      saveBtn.textContent = '已保存!'
+      saveBtn.style.background = '#27ae60'
+      saveBtn.style.borderColor = '#27ae60'
+      saveBtn.style.color = '#fff'
+      
+      setTimeout(() => {
+        saveBtn.textContent = originalText
+        saveBtn.style.background = ''
+        saveBtn.style.borderColor = '#e74c3c'
+        saveBtn.style.color = '#e74c3c'
+      }, 2000)
+    }
+    
+  } catch (error) {
+    console.error('保存失败:', error)
+    
+    // 备用方案：在新窗口中打开图片
+    try {
+      const newWindow = window.open('', '_blank')
+      if (newWindow) {
+        newWindow.document.write(`
+          <html>
+            <head><title>复古相机照片</title></head>
+            <body style="margin:0;display:flex;justify-content:center;align-items:center;min-height:100vh;background:#f0f0f0;">
+              <img src="${capturedImage.value}" style="max-width:90%;max-height:90%;box-shadow:0 4px 20px rgba(0,0,0,0.3);" alt="复古相机照片">
+            </body>
+          </html>
+        `)
+        newWindow.document.close()
+      } else {
+        throw new Error('无法打开新窗口')
+      }
+    } catch (e) {
+      alert('自动保存失败，请右键点击照片选择"图片另存为"')
+    }
+  }
 }
 
 onMounted(() => {

@@ -440,11 +440,12 @@ video.rear-view {
 }
 .ai-text {
   font-family: 'Ma Shan Zheng', cursive;
-  font-size: 24px;
+  font-size: 18px;
   color: #333;
   opacity: 0;
   transition: opacity 1.5s ease;
   text-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+  line-height: 1.4;
 }
 .ai-text.show {
   opacity: 0.9;
