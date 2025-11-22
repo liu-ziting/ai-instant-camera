@@ -107,11 +107,17 @@ export function useTheme() {
     setTheme(themeIds[nextIndex])
   }
   
+  // 初始化时应用默认的经典黑主题
+  const initTheme = () => {
+    applyTheme(themes.classic)
+  }
+  
   return {
     currentTheme,
     theme,
     themes,
     setTheme,
-    nextTheme
+    nextTheme,
+    initTheme
   }
 }

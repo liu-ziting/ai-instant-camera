@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" style="background-color: #000;">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -7,8 +7,20 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet" />
+    <style>
+      /* 防止白色闪烁的内联样式 */
+      html, body {
+        background-color: #000 !important;
+        margin: 0;
+        padding: 0;
+      }
+      #app {
+        background-color: #000;
+        min-height: 100vh;
+      }
+    </style>
   </head>
-  <body>
+  <body style="background-color: #000;">
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
     <script type="text/javascript">

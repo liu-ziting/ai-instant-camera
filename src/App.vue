@@ -116,7 +116,7 @@ const aiText = ref('')
 const { currentFacingMode, startCamera, toggleCamera } = useCamera(videoRef)
 const { getAIText, isLoading } = useAI()
 const { resizeCamera } = useResize(scalableWrapper)
-const { theme, nextTheme } = useTheme()
+const { theme, nextTheme, initTheme } = useTheme()
 
 // 拍照功能
 const takePhoto = async () => {
@@ -187,11 +187,11 @@ const closeModal = () => {
 
 
 onMounted(() => {
+  // 首先初始化黑色主题
+  initTheme()
   startCamera()
   resizeCamera()
   window.addEventListener('resize', resizeCamera)
-  // 初始化默认主题
-  nextTheme()
 })
 
 onUnmounted(() => {
