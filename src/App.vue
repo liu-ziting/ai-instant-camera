@@ -141,7 +141,7 @@ const { currentFacingMode, startCamera, toggleCamera } = useCamera(videoRef)
 const { getAIText, isLoading } = useAI()
 const { resizeCamera } = useResize(scalableWrapper)
 const { theme, nextTheme, initTheme } = useTheme()
-const { savePolaroid } = usePolaroid()
+const { savePolaroid, applyFilters } = usePolaroid()
 
 // 拍照功能
 const takePhoto = async () => {
@@ -176,6 +176,10 @@ const takePhoto = async () => {
   }
 
   ctx.drawImage(video, 0, 0)
+  
+  // 应用与最终保存一致的滤镜效果
+  applyFilters(ctx, canvas.width, canvas.height)
+  
   capturedImage.value = canvas.toDataURL('image/jpeg', 0.9)
 
   // 照片弹出动画
