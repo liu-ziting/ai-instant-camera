@@ -1,0 +1,479 @@
+:root {
+  --bg-color: #222;
+  --cam-body: #1a1a1a;
+  --rainbow: linear-gradient(to bottom, #5ac8fa 16.6%, #4cd964 16.6% 33.2%, #ffcc00 33.2% 49.8%, #ff9500 49.8% 66.4%, #ff3b30 66.4%);
+  --noise-tex: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  background-color: #111;
+  background-image: radial-gradient(circle at center, #2c3e50 0%, #000 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: sans-serif;
+  overflow: hidden;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#scalable-wrapper {
+  position: relative;
+  width: 360px;
+  height: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transform: scale(1);
+}
+
+/* === 相机主体 === */
+.camera-case {
+  position: relative;
+  width: 340px;
+  height: 320px;
+  background-color: var(--cam-body);
+  border-radius: 40px;
+  box-shadow: inset 2px 2px 5px rgba(255, 255, 255, 0.1), inset -5px -5px 15px rgba(0, 0, 0, 0.8), 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 0 2px #000;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-image: var(--noise-tex), linear-gradient(135deg, #2b2b2b 0%, #1a1a1a 100%);
+}
+
+.top-housing {
+  width: 100%;
+  height: 110px;
+  background: linear-gradient(to bottom, #333, #222);
+  border-radius: 38px 38px 4px 4px;
+  border-bottom: 2px solid #000;
+  position: relative;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  z-index: 12;
+}
+
+.flash-module {
+  position: absolute;
+  top: 25px;
+  right: 30px;
+  width: 70px;
+  height: 45px;
+  background: #444;
+  border: 2px solid #111;
+  border-radius: 6px;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.8);
+  background-image: repeating-linear-gradient(90deg, transparent, transparent 4px, rgba(255, 255, 255, 0.1) 4px, rgba(255, 255, 255, 0.1) 5px);
+  transition: background 0.1s;
+}
+
+.flash-bulb {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+  height: 60%;
+  background: #ffeaa7;
+  opacity: 0.3;
+  filter: blur(2px);
+  border-radius: 2px;
+  transition: opacity 0.1s;
+}
+
+.flash-module.firing {
+  background-color: #fff !important;
+  border-color: #fff;
+  box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.9);
+  z-index: 99;
+}
+.flash-module.firing .flash-bulb {
+  opacity: 1;
+  background: #fff;
+}
+
+.viewfinder {
+  position: absolute;
+  top: 30px;
+  left: 35px;
+  width: 50px;
+  height: 50px;
+  background: #000;
+  border-radius: 8px;
+  border: 3px solid #111;
+  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+}
+.viewfinder::after {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  width: 200%;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  transform: rotate(45deg);
+}
+
+.rainbow-strip {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 100%;
+  background: var(--rainbow);
+  opacity: 0.9;
+  z-index: 1;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+/* 镜头 */
+.lens-assembly {
+  position: absolute;
+  top: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 210px;
+  height: 210px;
+  border-radius: 50%;
+  z-index: 20;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle at 30% 30%, #333, #000);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), inset 0 2px 5px rgba(255, 255, 255, 0.2);
+}
+.lens-ring-grip {
+  width: 190px;
+  height: 190px;
+  border-radius: 50%;
+  background: #111;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 4px solid #000;
+  background-image: repeating-conic-gradient(#1a1a1a 0% 1%, #0a0a0a 1% 2%);
+}
+.lens-glass-frame {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: #000;
+  border: 6px solid #222;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 0 10px #000;
+}
+video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* 默认是前置，需要镜像 */
+  transform: scaleX(-1);
+  opacity: 0.8;
+  transition: opacity 0.3s;
+}
+/* 后置摄像头不镜像 */
+video.rear-view {
+  transform: scaleX(1);
+}
+
+.lens-reflection {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
+  background: radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.15) 0%, transparent 15%),
+      linear-gradient(135deg, transparent 40%, rgba(255, 255, 255, 0.05) 45%, transparent 50%);
+}
+.lens-flare-purple {
+  position: absolute;
+  bottom: 20%;
+  right: 20%;
+  width: 60%;
+  height: 60%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(100, 50, 255, 0.1), transparent 60%);
+  mix-blend-mode: screen;
+}
+
+/* 快门按钮 (右侧) */
+.shutter-housing {
+  position: absolute;
+  bottom: 30px;
+  right: 20px;
+  width: 70px;
+  height: 70px;
+  background: #000;
+  border-radius: 50%;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 30;
+}
+.shutter-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  background: radial-gradient(circle at 35% 35%, #ff7675, #d63031);
+  box-shadow: inset 0 -4px 8px rgba(0, 0, 0, 0.4), inset 0 2px 5px rgba(255, 255, 255, 0.5), 0 2px 5px rgba(0, 0, 0, 0.3);
+  transition: transform 0.1s;
+}
+.shutter-btn:active {
+  transform: scale(0.92);
+}
+
+/* === 切换镜头按钮 (左侧) === */
+.toggle-btn {
+  position: absolute;
+  bottom: 40px;
+  left: 30px;
+  width: 50px;
+  height: 50px;
+  background: #2d3436;
+  border-radius: 50%;
+  border: 2px solid #111;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5), inset 0 1px 2px rgba(255, 255, 255, 0.1);
+  z-index: 30;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.toggle-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  background: #111;
+}
+.toggle-icon {
+  width: 24px;
+  height: 24px;
+  fill: #aaa;
+}
+
+/* 装饰螺丝 */
+.screw {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: linear-gradient(45deg, #555, #222);
+  border-radius: 50%;
+  box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.8);
+  z-index: 15;
+}
+.screw::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 1px;
+  width: 8px;
+  height: 2px;
+  background: #111;
+  transform: rotate(45deg);
+}
+.s-tl {
+  top: 15px;
+  left: 15px;
+}
+.s-tr {
+  top: 15px;
+  right: 15px;
+}
+.s-bl {
+  bottom: 15px;
+  left: 15px;
+}
+
+.slot-guard {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 240px;
+  height: 18px;
+  background: #111;
+  border-radius: 8px 8px 0 0;
+  z-index: 6;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.5);
+}
+.slot-gap {
+  position: absolute;
+  top: 2px;
+  left: 5px;
+  width: 230px;
+  height: 6px;
+  background: #000;
+  border-radius: 4px;
+}
+
+.flash-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+}
+.flash-anim {
+  animation: flash 0.1s ease-out;
+}
+@keyframes flash {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.anim-photo {
+  position: absolute;
+  width: 220px;
+  height: 260px;
+  background: #fdfdfd;
+  top: 10px;
+  left: 50%;
+  margin-left: -110px;
+  z-index: 4;
+  display: none;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  background-image: var(--noise-tex);
+}
+.anim-photo-inner {
+  width: 190px;
+  height: 190px;
+  background: #111;
+  margin: 15px auto 0;
+}
+.eject-anim {
+  display: block;
+  animation: ejectUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+@keyframes ejectUp {
+  0% {
+    top: 10px;
+  }
+  100% {
+    top: -200px;
+  }
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.95);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  backdrop-filter: blur(10px);
+}
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.polaroid-card {
+  width: 320px;
+  background: #fdfdfd;
+  padding: 18px 18px 0 18px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+  transform: scale(0.8) translateY(50px);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  background-image: var(--noise-tex);
+}
+.modal-overlay.active .polaroid-card {
+  transform: scale(1) translateY(0);
+}
+.photo-frame {
+  width: 100%;
+  aspect-ratio: 1/1;
+  background: #000;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+.photo-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: sepia(0.2) contrast(1.1) brightness(1.1);
+}
+.text-area {
+  height: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 15px;
+}
+.ai-text {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 24px;
+  color: #333;
+  opacity: 0;
+  transition: opacity 1.5s ease;
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+}
+.ai-text.show {
+  opacity: 0.9;
+}
+.action-btns {
+  margin-top: 40px;
+  display: flex;
+  gap: 30px;
+}
+.btn {
+  background: none;
+  border: 1px solid #555;
+  color: #aaa;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.2s;
+}
+.btn:hover {
+  border-color: #fff;
+  color: #fff;
+}
+.btn-save {
+  border-color: #e74c3c;
+  color: #e74c3c;
+  font-weight: bold;
+}
+.btn-save:hover {
+  background: #e74c3c;
+  color: #fff;
+}
