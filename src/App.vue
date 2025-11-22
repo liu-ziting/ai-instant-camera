@@ -135,8 +135,6 @@ const capturedImage = ref('')
 const aiText = ref('')
 const isDownloading = ref(false)
 
-// 检测移动设备
-const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
 
 // 使用组合式函数
 const { currentFacingMode, startCamera, toggleCamera } = useCamera(videoRef)
