@@ -33,7 +33,8 @@ body {
   font-family: sans-serif;
   overflow: hidden;
   transition: background-image 0.5s ease;
-  padding-bottom: 50px; /* 为底部开源信息留出空间 */
+  padding-bottom: 50px;
+  /* 为底部开源信息留出空间 */
 }
 
 #app {
@@ -120,6 +121,7 @@ body {
   box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.9);
   z-index: 99;
 }
+
 .flash-module.firing .flash-bulb {
   opacity: 1;
   background: #fff;
@@ -137,6 +139,7 @@ body {
   box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.2);
   overflow: hidden;
 }
+
 .viewfinder::after {
   content: '';
   position: absolute;
@@ -179,6 +182,7 @@ body {
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), inset 0 2px 5px rgba(255, 255, 255, 0.2);
   transition: all 0.5s ease;
 }
+
 .lens-ring-grip {
   width: 190px;
   height: 190px;
@@ -190,6 +194,7 @@ body {
   border: 4px solid #000;
   background-image: repeating-conic-gradient(#1a1a1a 0% 1%, #0a0a0a 1% 2%);
 }
+
 .lens-glass-frame {
   width: 160px;
   height: 160px;
@@ -200,6 +205,7 @@ body {
   overflow: hidden;
   box-shadow: inset 0 0 10px #000;
 }
+
 video {
   width: 100%;
   height: 100%;
@@ -209,6 +215,7 @@ video {
   opacity: 0.8;
   transition: opacity 0.3s;
 }
+
 /* 后置摄像头不镜像 */
 video.rear-view {
   transform: scaleX(1);
@@ -223,8 +230,9 @@ video.rear-view {
   pointer-events: none;
   z-index: 5;
   background: radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.15) 0%, transparent 15%),
-      linear-gradient(135deg, transparent 40%, rgba(255, 255, 255, 0.05) 45%, transparent 50%);
+    linear-gradient(135deg, transparent 40%, rgba(255, 255, 255, 0.05) 45%, transparent 50%);
 }
+
 .lens-flare-purple {
   position: absolute;
   bottom: 20%;
@@ -251,6 +259,7 @@ video.rear-view {
   align-items: center;
   z-index: 30;
 }
+
 .shutter-btn {
   width: 56px;
   height: 56px;
@@ -261,6 +270,7 @@ video.rear-view {
   box-shadow: inset 0 -4px 8px rgba(0, 0, 0, 0.4), inset 0 2px 5px rgba(255, 255, 255, 0.5), 0 2px 5px rgba(0, 0, 0, 0.3);
   transition: transform 0.1s;
 }
+
 .shutter-btn:active {
   transform: scale(0.92);
 }
@@ -283,11 +293,13 @@ video.rear-view {
   cursor: pointer;
   transition: all 0.2s;
 }
+
 .toggle-btn:active {
   transform: translateY(2px);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
   background: #111;
 }
+
 .toggle-icon {
   width: 24px;
   height: 24px;
@@ -314,20 +326,24 @@ video.rear-view {
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
 }
+
 .theme-btn:hover {
   background: rgba(255, 255, 255, 0.2);
   transform: translateX(-50%) scale(1.1);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
+
 .theme-btn:active {
   transform: translateX(-50%) scale(0.95);
 }
+
 .theme-icon {
   width: 18px;
   height: 18px;
   fill: rgba(255, 255, 255, 0.8);
   transition: fill 0.3s ease;
 }
+
 .theme-btn:hover .theme-icon {
   fill: rgba(255, 255, 255, 1);
 }
@@ -344,6 +360,7 @@ video.rear-view {
   z-index: 15;
   transition: color 0.5s ease;
 }
+
 .ai-label {
   color: var(--brand-color);
   transition: color 0.5s ease;
@@ -379,6 +396,7 @@ video.rear-view {
   z-index: 15;
   transition: all 0.5s ease;
 }
+
 .screw::after {
   content: '';
   position: absolute;
@@ -389,14 +407,17 @@ video.rear-view {
   background: #111;
   transform: rotate(45deg);
 }
+
 .s-tl {
   top: 15px;
   left: 15px;
 }
+
 .s-tr {
   top: 15px;
   right: 15px;
 }
+
 .s-bl {
   bottom: 15px;
   left: 15px;
@@ -414,6 +435,7 @@ video.rear-view {
   z-index: 6;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.5);
 }
+
 .slot-gap {
   position: absolute;
   top: 2px;
@@ -435,13 +457,16 @@ video.rear-view {
   opacity: 0;
   pointer-events: none;
 }
+
 .flash-anim {
   animation: flash 0.1s ease-out;
 }
+
 @keyframes flash {
   0% {
     opacity: 1;
   }
+
   100% {
     opacity: 0;
   }
@@ -460,20 +485,24 @@ video.rear-view {
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
   background-image: var(--noise-tex);
 }
+
 .anim-photo-inner {
   width: 190px;
   height: 190px;
   background: #111;
   margin: 15px auto 0;
 }
+
 .eject-anim {
   display: block;
   animation: ejectUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
+
 @keyframes ejectUp {
   0% {
     top: 10px;
   }
+
   100% {
     top: -200px;
   }
@@ -496,10 +525,12 @@ video.rear-view {
   transition: opacity 0.4s ease;
   backdrop-filter: blur(10px);
 }
+
 .modal-overlay.active {
   opacity: 1;
   pointer-events: auto;
 }
+
 .polaroid-card {
   width: 320px;
   background: #fdfdfd;
@@ -509,9 +540,11 @@ video.rear-view {
   transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   background-image: var(--noise-tex);
 }
+
 .modal-overlay.active .polaroid-card {
   transform: scale(1) translateY(0);
 }
+
 .photo-frame {
   width: 100%;
   aspect-ratio: 1/1;
@@ -519,12 +552,13 @@ video.rear-view {
   overflow: hidden;
   border: 1px solid rgba(0, 0, 0, 0.1);
 }
+
 .photo-frame img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: sepia(0.2) contrast(1.1) brightness(1.1);
 }
+
 .text-area {
   height: 110px;
   display: flex;
@@ -534,10 +568,11 @@ video.rear-view {
   padding: 0 15px;
   position: relative;
   /* 添加纸张纹理背景 */
-  background-image: 
-    linear-gradient(45deg, transparent 40%, rgba(0,0,0,0.01) 50%, transparent 60%),
-    linear-gradient(-45deg, transparent 40%, rgba(0,0,0,0.01) 50%, transparent 60%);
+  background-image:
+    linear-gradient(45deg, transparent 40%, rgba(0, 0, 0, 0.01) 50%, transparent 60%),
+    linear-gradient(-45deg, transparent 40%, rgba(0, 0, 0, 0.01) 50%, transparent 60%);
 }
+
 .ai-text {
   font-family: 'Courier New', 'Monaco', 'Menlo', 'Consolas', monospace;
   font-size: 16px;
@@ -552,17 +587,18 @@ video.rear-view {
   word-wrap: break-word;
   white-space: pre-wrap;
   /* 打印机颗粒感效果 */
-  text-shadow: 
-    1px 0px 0px rgba(0,0,0,0.3),
-    0px 1px 0px rgba(0,0,0,0.2),
-    1px 1px 0px rgba(0,0,0,0.1),
-    2px 1px 0px rgba(0,0,0,0.05),
-    1px 2px 0px rgba(0,0,0,0.05);
+  text-shadow:
+    1px 0px 0px rgba(0, 0, 0, 0.3),
+    0px 1px 0px rgba(0, 0, 0, 0.2),
+    1px 1px 0px rgba(0, 0, 0, 0.1),
+    2px 1px 0px rgba(0, 0, 0, 0.05),
+    1px 2px 0px rgba(0, 0, 0, 0.05);
   /* 轻微的模糊效果模拟打印机墨点扩散 */
   filter: contrast(1.1) brightness(0.95);
   /* 添加打印机纸张质感 */
   position: relative;
 }
+
 .ai-text.show {
   opacity: 0.95;
   animation: fadeInTypewriter 1.5s ease-out forwards;
@@ -575,16 +611,19 @@ video.rear-view {
     filter: blur(2px) contrast(1.1) brightness(0.95);
     transform: translateY(5px);
   }
+
   20% {
     opacity: 0.3;
     filter: blur(1px) contrast(1.1) brightness(0.95);
     transform: translateY(2px);
   }
+
   60% {
     opacity: 0.7;
     filter: blur(0.5px) contrast(1.1) brightness(0.95);
     transform: translateY(0px);
   }
+
   100% {
     opacity: 0.95;
     filter: contrast(1.1) brightness(0.95);
@@ -600,18 +639,17 @@ video.rear-view {
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: 
-    repeating-linear-gradient(
-      0deg,
+  background-image:
+    repeating-linear-gradient(0deg,
       transparent,
       transparent 2px,
-      rgba(0,0,0,0.015) 2px,
-      rgba(0,0,0,0.015) 3px
-    );
+      rgba(0, 0, 0, 0.015) 2px,
+      rgba(0, 0, 0, 0.015) 3px);
   pointer-events: none;
   z-index: -1;
   opacity: 0.6;
 }
+
 .ai-text.loading {
   opacity: 0.7;
   display: flex;
@@ -624,10 +662,12 @@ video.rear-view {
   letter-spacing: 1px;
   text-transform: uppercase;
 }
+
 .loading-dots {
   display: flex;
   gap: 4px;
 }
+
 .loading-dots span {
   width: 6px;
   height: 6px;
@@ -635,25 +675,41 @@ video.rear-view {
   border-radius: 50%;
   animation: loading-bounce 1.4s ease-in-out infinite both;
 }
-.loading-dots span:nth-child(1) { animation-delay: -0.32s; }
-.loading-dots span:nth-child(2) { animation-delay: -0.16s; }
-.loading-dots span:nth-child(3) { animation-delay: 0s; }
+
+.loading-dots span:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.loading-dots span:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+.loading-dots span:nth-child(3) {
+  animation-delay: 0s;
+}
+
 @keyframes loading-bounce {
-  0%, 80%, 100% {
+
+  0%,
+  80%,
+  100% {
     transform: scale(0.8);
     opacity: 0.5;
   }
+
   40% {
     transform: scale(1);
     opacity: 1;
   }
 }
+
 .action-btns {
   margin-top: 40px;
   display: flex;
   justify-content: center;
   gap: 15px;
 }
+
 .btn {
   background: none;
   border: 1px solid #555;
@@ -665,16 +721,19 @@ video.rear-view {
   transition: all 0.3s ease;
   font-weight: 500;
 }
+
 .btn:hover {
   border-color: #fff;
   color: #fff;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
 }
+
 .btn-retake {
   border-color: #74b9ff;
   color: #74b9ff;
 }
+
 .btn-retake:hover {
   background: #74b9ff;
   color: #fff;
@@ -719,8 +778,13 @@ video.rear-view {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* 开源项目说明 */
@@ -785,18 +849,18 @@ video.rear-view {
     font-size: 11px;
     gap: 6px;
   }
-  
+
   .github-icon {
     width: 12px;
     height: 12px;
   }
-  
+
   .action-btns {
     flex-direction: column;
     gap: 10px;
     align-items: center;
   }
-  
+
   .btn {
     min-width: 200px;
   }
