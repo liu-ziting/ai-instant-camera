@@ -1,4 +1,4 @@
-# 📸 Retro Pro Camera V3
++# 📸 Retro Pro Camera V3
 
 <div align="center">
 
@@ -7,11 +7,9 @@
 ![Vite](https://img.shields.io/badge/Vite-5.4+-646CFF?style=for-the-badge&logo=vite&logoColor=white)
 ![AI Powered](https://img.shields.io/badge/AI%20Powered-GLM--4.1V-FF6B6B?style=for-the-badge&logo=openai&logoColor=white)
 
-**一款融合复古美学与现代AI技术的智能相机应用**
+**一款融合复古美学与现代 AI 技术的智能相机应用**
 
-*使用Vue3 + TypeScript重构，集成智谱AI视觉模型，为每张照片生成独特的AI文案*
-
-[🚀 在线体验](#) | [📖 文档](#功能特性) | [🛠️ 开发指南](#开发指南) | [🤝 贡献](#贡献指南)
+_使用 Vue3 + TypeScript 重构，集成智谱 AI 视觉模型，为每张照片生成独特的 AI 文案_
 
 </div>
 
@@ -20,38 +18,43 @@
 ## ✨ 功能特性
 
 ### 📷 核心拍摄功能
-- **实时预览**: 高清摄像头实时预览，支持1080p分辨率
-- **双摄切换**: 一键切换前置/后置摄像头，智能镜像处理
-- **专业快门**: 模拟真实相机快门体验，带触觉反馈
-- **闪光灯效果**: 逼真的闪光灯动画和全屏闪白效果
-- **照片弹出**: 拍照后的宝丽来照片弹出动画
 
-### 🤖 AI智能解读
-- **多场景识别**: 不仅限于宠物，支持人物、风景、物品等多种场景
-- **情感分析**: 深度分析图片内容，生成贴合场景的情感文案
-- **拟人化表达**: 宠物照片采用第一人称拟人化表达，生动有趣
-- **诗意文案**: 非宠物内容生成温馨治愈的诗意文案
-- **实时生成**: 基于智谱AI GLM-4.1V-Thinking-Flash模型，响应迅速
+-   **实时预览**: 高清摄像头实时预览，支持 1080p 分辨率
+-   **双摄切换**: 一键切换前置/后置摄像头，智能镜像处理
+-   **专业快门**: 模拟真实相机快门体验，带触觉反馈
+-   **闪光灯效果**: 逼真的闪光灯动画和全屏闪白效果
+-   **照片弹出**: 拍照后的宝丽来照片弹出动画
+
+### 🤖 AI 智能解读
+
+-   **多场景识别**: 不仅限于宠物，支持人物、风景、物品等多种场景
+-   **情感分析**: 深度分析图片内容，生成贴合场景的情感文案
+-   **拟人化表达**: 宠物照片采用第一人称拟人化表达，生动有趣
+-   **诗意文案**: 非宠物内容生成温馨治愈的诗意文案
+-   **实时生成**: 基于智谱 AI GLM-4.1V-Thinking-Flash 模型，响应迅速
 
 ### 🎨 复古美学设计
-- **宝丽来风格**: 经典宝丽来相机外观设计
-- **材质纹理**: 真实的金属质感、皮革纹理和彩虹条纹
-- **打印机字体**: AI文案采用等宽字体，模拟打印机颗粒感效果
-- **动画效果**: 丰富的CSS3动画，包括照片弹出、闪光等
-- **响应式设计**: 完美适配各种屏幕尺寸
+
+-   **宝丽来风格**: 经典宝丽来相机外观设计
+-   **材质纹理**: 真实的金属质感、皮革纹理和彩虹条纹
+-   **打印机字体**: AI 文案采用等宽字体，模拟打印机颗粒感效果
+-   **动画效果**: 丰富的 CSS3 动画，包括照片弹出、闪光等
+-   **响应式设计**: 完美适配各种屏幕尺寸
 
 ### 🔧 技术亮点
-- **Vue3 Composition API**: 现代化的组件开发模式
-- **TypeScript**: 完整的类型安全保障
-- **模块化架构**: 功能解耦，易于维护和扩展
-- **性能优化**: Vite构建工具，开发体验极佳
-- **错误处理**: 完善的错误处理和降级方案
+
+-   **Vue3 Composition API**: 现代化的组件开发模式
+-   **TypeScript**: 完整的类型安全保障
+-   **模块化架构**: 功能解耦，易于维护和扩展
+-   **性能优化**: Vite 构建工具，开发体验极佳
+-   **错误处理**: 完善的错误处理和降级方案
 
 ---
 
 ## 🏗️ 技术架构
 
 ### 技术栈
+
 ```
 Frontend Framework: Vue 3.5+ (Composition API)
 Language: TypeScript 5.6+
@@ -61,6 +64,7 @@ Styling: CSS3 + CSS Variables
 ```
 
 ### 项目结构
+
 ```
 retro-camera-vue/
 ├── 📁 public/                 # 静态资源
@@ -82,26 +86,29 @@ retro-camera-vue/
 ### 核心组合式函数
 
 #### `useCamera.ts` - 摄像头管理
+
 ```typescript
 interface CameraComposable {
-  currentFacingMode: Ref<'user' | 'environment'>
-  startCamera: () => Promise<void>
-  toggleCamera: () => void
+    currentFacingMode: Ref<'user' | 'environment'>
+    startCamera: () => Promise<void>
+    toggleCamera: () => void
 }
 ```
 
-#### `useAI.ts` - AI文案生成
+#### `useAI.ts` - AI 文案生成
+
 ```typescript
 interface AIComposable {
-  getAIText: (imageDataUrl: string) => Promise<string>
-  isLoading: Ref<boolean>
+    getAIText: (imageDataUrl: string) => Promise<string>
+    isLoading: Ref<boolean>
 }
 ```
 
 #### `useResize.ts` - 响应式适配
+
 ```typescript
 interface ResizeComposable {
-  resizeCamera: () => void
+    resizeCamera: () => void
 }
 ```
 
@@ -110,9 +117,10 @@ interface ResizeComposable {
 ## 🚀 开发指南
 
 ### 环境要求
-- **Node.js**: >= 18.0.0
-- **npm**: >= 8.0.0
-- **现代浏览器**: 支持ES2020+和WebRTC
+
+-   **Node.js**: >= 18.0.0
+-   **npm**: >= 8.0.0
+-   **现代浏览器**: 支持 ES2020+和 WebRTC
 
 ### 快速开始
 
@@ -145,29 +153,31 @@ npm run preview
 
 ### 开发脚本
 
-| 命令 | 描述 |
-|------|------|
-| `npm run dev` | 启动开发服务器 |
-| `npm run build` | 构建生产版本 |
-| `npm run preview` | 预览构建结果 |
+| 命令              | 描述           |
+| ----------------- | -------------- |
+| `npm run dev`     | 启动开发服务器 |
+| `npm run build`   | 构建生产版本   |
+| `npm run preview` | 预览构建结果   |
 
 ---
 
-## 🤖 AI功能详解
+## 🤖 AI 功能详解
 
-### 智谱AI集成
+### 智谱 AI 集成
 
-本项目集成了智谱AI的GLM-4.1V-Thinking-Flash多模态大模型，具备强大的图像理解和文本生成能力。
+本项目集成了智谱 AI 的 GLM-4.1V-Thinking-Flash 多模态大模型，具备强大的图像理解和文本生成能力。
 
 #### 功能特点
-- **多模态理解**: 同时处理图像和文本信息
-- **情感识别**: 准确识别图片中的情感色彩
-- **创意文案**: 生成富有创意和情感的文案内容
-- **快速响应**: 平均响应时间 < 2秒
+
+-   **多模态理解**: 同时处理图像和文本信息
+-   **情感识别**: 准确识别图片中的情感色彩
+-   **创意文案**: 生成富有创意和情感的文案内容
+-   **快速响应**: 平均响应时间 < 2 秒
 
 #### 文案生成策略
 
 **宠物照片处理**:
+
 ```
 输入: 宠物图片
 处理: 识别宠物种类 → 分析表情动作 → 生成拟人化对话
@@ -175,6 +185,7 @@ npm run preview
 ```
 
 **通用场景处理**:
+
 ```
 输入: 任意图片
 处理: 场景识别 → 情感分析 → 诗意文案生成
@@ -182,30 +193,34 @@ npm run preview
 ```
 
 #### 错误处理机制
-- **网络异常**: 自动重试 + 备用文案
-- **API限制**: 优雅降级到本地文案库
-- **内容过滤**: 确保输出内容健康正向
+
+-   **网络异常**: 自动重试 + 备用文案
+-   **API 限制**: 优雅降级到本地文案库
+-   **内容过滤**: 确保输出内容健康正向
 
 ---
 
 ## 🎨 设计理念
 
 ### 复古美学
-- **色彩搭配**: 经典的黑白灰主色调 + 彩虹装饰条
-- **材质模拟**: CSS实现的金属、皮革、玻璃质感
-- **细节雕琢**: 螺丝、反光、阴影等真实感细节
+
+-   **色彩搭配**: 经典的黑白灰主色调 + 彩虹装饰条
+-   **材质模拟**: CSS 实现的金属、皮革、玻璃质感
+-   **细节雕琢**: 螺丝、反光、阴影等真实感细节
 
 ### 交互体验
-- **物理反馈**: 按钮按压、相机震动等拟物化交互
-- **动画流畅**: 60fps的流畅动画体验
-- **响应迅速**: 优化的事件处理，减少延迟
+
+-   **物理反馈**: 按钮按压、相机震动等拟物化交互
+-   **动画流畅**: 60fps 的流畅动画体验
+-   **响应迅速**: 优化的事件处理，减少延迟
 
 ### 字体设计
+
 ```css
 /* 打印机风格字体 */
 font-family: 'Courier New', 'Monaco', 'Menlo', 'Consolas', monospace;
 /* 颗粒感效果 */
-text-shadow: 1px 0px 0px rgba(0,0,0,0.3), ...;
+text-shadow: 1px 0px 0px rgba(0, 0, 0, 0.3), ...;
 /* 打字机动画 */
 animation: fadeInTypewriter 1.5s ease-out forwards;
 ```
@@ -214,24 +229,26 @@ animation: fadeInTypewriter 1.5s ease-out forwards;
 
 ## 📱 浏览器兼容性
 
-| 浏览器 | 版本要求 | 支持状态 |
-|--------|----------|----------|
-| Chrome | 88+ | ✅ 完全支持 |
-| Firefox | 78+ | ✅ 完全支持 |
-| Safari | 14+ | ✅ 完全支持 |
-| Edge | 88+ | ✅ 完全支持 |
+| 浏览器  | 版本要求 | 支持状态    |
+| ------- | -------- | ----------- |
+| Chrome  | 88+      | ✅ 完全支持 |
+| Firefox | 78+      | ✅ 完全支持 |
+| Safari  | 14+      | ✅ 完全支持 |
+| Edge    | 88+      | ✅ 完全支持 |
 
-### 必需API支持
-- **MediaDevices.getUserMedia()**: 摄像头访问
-- **Canvas API**: 图像处理
-- **Fetch API**: 网络请求
-- **CSS Grid/Flexbox**: 布局支持
+### 必需 API 支持
+
+-   **MediaDevices.getUserMedia()**: 摄像头访问
+-   **Canvas API**: 图像处理
+-   **Fetch API**: 网络请求
+-   **CSS Grid/Flexbox**: 布局支持
 
 ---
 
 ## 🔧 配置说明
 
-### AI接口配置
+### AI 接口配置
+
 ```typescript
 // src/composables/useAI.ts
 const apiKey = 'your-zhipu-ai-api-key'
@@ -239,14 +256,15 @@ const model = 'GLM-4.1V-Thinking-Flash'
 ```
 
 ### 摄像头配置
+
 ```typescript
 // 支持的分辨率配置
 const constraints = {
-  video: {
-    facingMode: 'user', // 'user' | 'environment'
-    width: { ideal: 1080 },
-    height: { ideal: 1080 }
-  }
+    video: {
+        facingMode: 'user', // 'user' | 'environment'
+        width: { ideal: 1080 },
+        height: { ideal: 1080 }
+    }
 }
 ```
 
@@ -254,7 +272,8 @@ const constraints = {
 
 ## 🚀 部署指南
 
-### Vercel部署
+### Vercel 部署
+
 ```bash
 # 安装Vercel CLI
 npm i -g vercel
@@ -263,7 +282,8 @@ npm i -g vercel
 vercel --prod
 ```
 
-### Netlify部署
+### Netlify 部署
+
 ```bash
 # 构建项目
 npm run build
@@ -271,62 +291,8 @@ npm run build
 # 上传dist目录到Netlify
 ```
 
-### 自定义服务器
-```nginx
-# Nginx配置示例
-server {
-    listen 80;
-    server_name your-domain.com;
-    
-    location / {
-        root /path/to/dist;
-        try_files $uri $uri/ /index.html;
-    }
-}
-```
-
----
-
-## 🤝 贡献指南
-
-### 开发流程
-1. Fork本仓库
-2. 创建功能分支: `git checkout -b feature/amazing-feature`
-3. 提交更改: `git commit -m 'Add amazing feature'`
-4. 推送分支: `git push origin feature/amazing-feature`
-5. 提交Pull Request
-
-### 代码规范
-- 使用TypeScript进行类型检查
-- 遵循Vue3 Composition API最佳实践
-- 保持代码简洁和可读性
-- 添加必要的注释和文档
-
-### 问题反馈
-- 🐛 [报告Bug](https://github.com/your-username/retro-camera-vue/issues)
-- 💡 [功能建议](https://github.com/your-username/retro-camera-vue/issues)
-- 📖 [文档改进](https://github.com/your-username/retro-camera-vue/issues)
-
----
-
-## 📄 许可证
-
-本项目采用 [MIT License](LICENSE) 开源协议。
-
----
-
 ## 🙏 致谢
 
-- **Vue.js团队** - 提供优秀的前端框架
-- **智谱AI** - 提供强大的多模态AI能力
-- **开源社区** - 提供丰富的开发工具和资源
-
----
-
-<div align="center">
-
-**如果这个项目对你有帮助，请给它一个 ⭐️**
-
-Made with ❤️ by [Your Name]
-
-</div>
+-   **Vue.js 团队** - 提供优秀的前端框架
+-   **智谱 AI** - 提供强大的多模态 AI 能力
+-   **开源社区** - 提供丰富的开发工具和资源
